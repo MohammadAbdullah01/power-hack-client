@@ -1,10 +1,13 @@
 import React from 'react';
 import Container from 'react-bootstrap/Container'
-import Button from 'react-bootstrap/Button'
+
 
 import Table from 'react-bootstrap/Table';
+import BillsRow from '../BillsRow/BillsRow';
 
-const Bills = () => {
+const Bills = ({ bills, setApiLoading, billShow, setBillShow, handleBillShow, handleBillClose, updateOrAdd, setupdateOrAdd }) => {
+    // updateOrAdd={updateOrAdd}
+    //             setupdateOrAdd={setupdateOrAdd}
     return (
         <div>
             <Container>
@@ -20,19 +23,17 @@ const Bills = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>2</td>
-                            <td className='d-flex'> <Button variant="primary" size="sm">
-                                Update
-                            </Button>
-                                <Button className='ms-2' variant="danger" size="sm">
-                                    Delete
-                                </Button></td>
-                        </tr>
+                        {bills.map(bill => <BillsRow
+                            key={bill._id}
+                            bill={bill}
+                            setApiLoading={setApiLoading}
+                            billShow={billShow}
+                            setBillShow={setBillShow}
+                            handleBillShow={handleBillShow}
+                            handleBillClose={handleBillClose}
+                            updateOrAdd={updateOrAdd}
+                            setupdateOrAdd={setupdateOrAdd}
+                        ></BillsRow>)}
                     </tbody>
                 </Table>
             </Container>

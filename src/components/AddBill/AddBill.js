@@ -4,7 +4,11 @@ import Button from 'react-bootstrap/Button';
 import BillModal from '../BillModal/BillModal';
 
 
-const AddBill = ({ show, setShow, handleShow, handleClose }) => {
+const AddBill = ({ billShow, setBillShow, handleBillShow, handleBillClose, updateOrAdd, setupdateOrAdd }) => {
+    const handleModal = () => {
+        handleBillShow()
+        setupdateOrAdd("Add")
+    }
     return (
         <div className='my-3'>
             <Container>
@@ -16,12 +20,10 @@ const AddBill = ({ show, setShow, handleShow, handleClose }) => {
                         </form>
                     </div>
                     <div>
-                        <BillModal
-                            show={show}
-                            setShow={setShow}
-                            handleShow={handleShow}
-                            handleClose={handleClose}
-                        ></BillModal>
+
+                        <Button variant="primary" onClick={handleModal}>
+                            ADD NEW BILL
+                        </Button>
                     </div>
                 </div>
             </Container>

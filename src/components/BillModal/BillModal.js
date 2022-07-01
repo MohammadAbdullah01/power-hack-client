@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-const BillModal = ({ show, handleShow, handleClose }) => {
+const BillModal = ({ billShow, handleBillShow, handleBillClose, children, updateOrAdd }) => {
     const [emailError, setEmailError] = useState("")
     const [phoneError, setPhoneError] = useState("")
     const handleSubmit = (e) => {
@@ -13,8 +13,7 @@ const BillModal = ({ show, handleShow, handleClose }) => {
         const phone = e.target.phone.value;
         const paidAmount = e.target.paidAmount.value;
         if (phone.length < 11) {
-            setPhoneError("error happend")
-            console.log(phoneError);
+            setPhoneError("minimum 11 digit")
         } else {
             setPhoneError("")
         }
@@ -27,17 +26,58 @@ const BillModal = ({ show, handleShow, handleClose }) => {
         if (phoneError || emailError) {
             return;
         }
+        else {
+            const bill = {
+                name: name,
+                email: email,
+                phone: phone,
+                paidAmount: paidAmount
+            }
+            if (updateOrAdd === "Add") {
+                fetch('https://powerful-ridge-20266.herokuapp.com/add-billing', {
+                    method: 'POST',
+                    body: JSON.stringify(bill),
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data);
+                        handleBillClose()
+                    })
+
+            }
+            const Update = updateOrAdd.slice(0, 6)
+            if (Update) {
+                console.log(updateOrAdd)
+                const id = updateOrAdd.slice(7, updateOrAdd.length);
+                console.log(id);
+                fetch(`https://powerful-ridge-20266.herokuapp.com/update-billing/${id}`, {
+                    method: 'PUT',
+                    body: JSON.stringify(bill),
+                    headers: {
+                        'Content-type': 'application/json',
+                    },
+                })
+                    .then(res => res.json())
+                    .then(data => {
+                        console.log(data)
+                        handleBillClose()
+                    })
+            }
+            // handleBillClose()
+        }
+
     }
     return (
         <div>
             <>
-                <Button variant="primary" onClick={handleShow}>
-                    Add new bill
-                </Button>
 
-                <Modal show={show} onHide={handleClose}>
+
+                <Modal show={billShow} onHide={handleBillClose}>
                     <Modal.Header closeButton>
-                        <Modal.Title>ADD A NEW BILL</Modal.Title>
+                        <Modal.Title>Please {updateOrAdd}</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <Form onSubmit={handleSubmit}>
