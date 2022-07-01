@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import Modal from 'react-bootstrap/Modal';
 
-const BillModal = ({ billShow, handleBillShow, handleBillClose, children, updateOrAdd }) => {
+const BillModal = ({ billShow, handleBillShow, handleBillClose, children, updateOrAdd, setApiLoading }) => {
     const [emailError, setEmailError] = useState("")
     const [phoneError, setPhoneError] = useState("")
     const handleSubmit = (e) => {
@@ -44,6 +44,7 @@ const BillModal = ({ billShow, handleBillShow, handleBillClose, children, update
                     .then(res => res.json())
                     .then(data => {
                         console.log(data);
+                        setApiLoading(true)
                         handleBillClose()
                     })
 
@@ -63,6 +64,7 @@ const BillModal = ({ billShow, handleBillShow, handleBillClose, children, update
                     .then(res => res.json())
                     .then(data => {
                         console.log(data)
+                        setApiLoading(true)
                         handleBillClose()
                     })
             }

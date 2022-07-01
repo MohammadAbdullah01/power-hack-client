@@ -20,7 +20,6 @@ const AddBill = ({ billShow, setBillShow, handleBillShow, handleBillClose, updat
                         </form>
                     </div>
                     <div>
-
                         <Button variant="primary" onClick={handleModal}>
                             ADD NEW BILL
                         </Button>
